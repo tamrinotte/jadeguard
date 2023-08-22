@@ -1,6 +1,6 @@
 # JADEGUARD
 
-![JadeGuardLogo](https://raw.githubusercontent.com/dogaegeozden/jadeguard/main/app_images/JadeGuard.png)
+![JadeGuardLogo](https://raw.githubusercontent.com/tamrinotte/jadeguard/main/app_images/JadeGuard.png)
 
 <br>
 
@@ -38,7 +38,7 @@ __--help:__ Shows the help message and exits.
 
 2) Download the installer
 	
-       curl -L https://github.com/dogaegeozden/jadeguard/releases/download/firewall/jadeguard.deb -o jadeguard.deb
+       curl -L https://github.com/tamrinotte/jadeguard/releases/download/firewall/jadeguard.deb -o jadeguard.deb
 
 3) Start the installer
 
@@ -46,7 +46,7 @@ __--help:__ Shows the help message and exits.
 
 4) Open a new terminal and type
 
-      sudo jadeguard set
+       sudo jadeguard set
 
 <br>
 
@@ -54,7 +54,7 @@ __--help:__ Shows the help message and exits.
 
 <br>
 
-![JadeGuardLogo](https://raw.githubusercontent.com/dogaegeozden/jadeguard/main/app_images/JadeGuard.png)
+![JadeGuardLogo](https://raw.githubusercontent.com/tamrinotte/jadeguard/main/app_images/JadeGuard.png)
 
 <br>
 
@@ -92,7 +92,7 @@ __--help:__ Yardım mesajını görüntüler.
 
 2) Yükleyici indir
 	
-       curl -L https://github.com/dogaegeozden/jadeguard/releases/download/firewall/jadeguard.deb -o jadeguard.deb
+       curl -L https://github.com/tamrinotte/jadeguard/releases/download/firewall/jadeguard.deb -o jadeguard.deb
 
 3) Yükleyiciyi başlat
 
