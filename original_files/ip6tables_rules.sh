@@ -15,6 +15,9 @@ main () {
     # Calling the append_iptables_rules function.
     # append_ip6tables_rules
 
+    # Calling the append_rules_for_essential_security_measures function
+    # append_rules_for_essential_security_measures
+
     # Calling the save_the_rules function.
     save_the_rules
 
@@ -145,6 +148,46 @@ append_ip6tables_rules() {
     # ip6tables -A INPUT -p tcp -m conntrack --ctstate ESTABLISHED --sport 3306 -j ACCEPT
 
 }
+
+append_rules_for_essential_security_measures() {
+    # A function which appends ip6tables rules for essential security
+
+    # Logging
+    ip6tables -A INPUT -j LOG --log-prefix "IP6TABLES-DROP: " --log-level 4
+
+    ip6tables -A OUTPUT -j LOG --log-prefix "IP6TABLES-DROP: " --log-level 4
+
+    # Drop invalid packets
+    ip6tables -A INPUT -m conntrack --ctstate INVALID -j DROP
+
+    # Drop packets with too many fragments
+    ip6tables -A INPUT -f -j DROP
+
+    # Drop incoming NULL packets
+    ip6tables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+
+    # Drop XMAS packets
+    ip6tables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+
+    # Drop SYN-FIN packets
+    ip6tables -A INPUT -p tcp --tcp-flags SYN,FIN SYN,FIN -j DROP
+
+    # Drop malformed packets
+    ip6tables -A INPUT -m conntrack --ctstate INVALID -j DROP
+
+    # Prevent DoS attacks (Adjust threshold as needed)
+    ip6tables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
+
+    # Reject all other incoming traffic
+    ip6tables -A INPUT -j DROP
+
+    # Reject outgoing traffic for unknown destinations
+    ip6tables -A OUTPUT -d ::/128 -j REJECT
+
+    ip6tables -A OUTPUT -d ::1/128 -j REJECT
+
+}
+
 
 save_the_rules() {
     # A function which makes the rules persistent
