@@ -98,9 +98,6 @@ allow_specific_services() {
     # ESTABLISHED: meaning that the packet is associated with a connection which has seen packets in both directions,
     # RELATED: meaning that the packet is starting a new connection, but is associated with an existing connection, such as an FTP data transfer, or an ICMP error.
     
-    # SOURCE: Source is your machine. --sport is the port in your machine
-    # DESTINATION: Destionation is the other machine. --dport is the port in the other machine.
-    
     # Ping: Ping is a computer network administration software utility used to test the reachability of a host on an Internet Protocol (IP) network. It is available for virtually all operating systems that have networking capability, including most embedded network administration software.
     # iptables -A INPUT -p icmp -m conntrack --ctstate NEW --icmp-type 8 -j ACCEPT
     # iptables -A INPUT -p icmp -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
@@ -124,12 +121,12 @@ allow_specific_services() {
     iptables -A OUTPUT -p udp --dport 53 -m udp -j ACCEPT
 
     # SSH: The Secure Shell Protocol (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. Its most notable applications are remote login and command-line execution.
-    # Puting input -> Packages coming into the destionation port(Destination Port: It is the other machine's port, thats why you are only allowing when the state is either new or established. Because your security is what matters most for you, not the other's.)
+    # Puting input
     # iptables -A INPUT -p tcp -m conntrack --ctstate NEW,ESTABLISHED --dport 22 -j ACCEPT
 
     # iptables -A OUTPUT -p tcp -m conntrack --ctstate ESTABLISHED --sport 22 -j ACCEPT
     
-    # Geting output -> Packages coming into the source port(Source Port: It is your machine's port, that's why you are only allowing when the state is established. Becase your security is what matters most for you.)
+    # Geting output
     # iptables -A OUTPUT -p tcp -m conntrack --ctstate NEW,ESTABLISHED --dport 22 -j ACCEPT
 
     # iptables -A INPUT -p tcp -m conntrack --ctstate ESTABLISHED --sport 22 -j ACCEPT
