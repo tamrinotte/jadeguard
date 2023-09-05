@@ -17,6 +17,8 @@ main () {
 
     # Check if the strict_mode is equal to true
     if [ "$strict_mode" = "true" ]; then
+
+        echo "Strict Mode is On"
         
         # Calling the allow_specific_services function.
         # allow_specific_services
@@ -24,6 +26,8 @@ main () {
     # Check if the boolean is false
     else
 
+        echo "Strict Mode is Off"
+ 
         # Calling the allow_established_connections function.
         # allow_established_connections
     
