@@ -3,6 +3,9 @@
 main() {
     # The function which runs the entire script.
 
+    # Initialize a boolean like string variable
+    strict_mode="true"
+
     # Calling the clean_up_existing_rules function.
     clean_up_existing_rules
 
@@ -12,8 +15,19 @@ main() {
     # Calling the allow_input_and_output_on_loop_back_interface function.
     allow_input_and_output_on_loopback_interface
 
-    # Calling the allow_specific_services function.
-    allow_specific_services
+    # Check if the strict_mode is equal to true
+    if [ "$strict_mode" = "true" ]; then
+        
+        # Calling the allow_specific_services function.
+        allow_specific_services
+
+    # Check if the boolean is false
+    else
+
+        # Calling the allow_established_connections function.
+        allow_established_connections
+    
+    fi
 
     # Calling the append_rules_for_essential_security_measures function
     append_rules_for_essential_security_measures
@@ -66,8 +80,17 @@ allow_input_and_output_on_loopback_interface() {
 
 }
 
+allow_established_connections() {
+    # A function which appens rules to allow established connections
+
+    iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    
+    iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+}
+
 allow_specific_services() {
-    # A function which appens iptables rules.
+    # A function which appens rules to allow specific services.
 
     echo "Setting iptables rules."
 
@@ -86,12 +109,12 @@ allow_specific_services() {
     # HTTP: Hypertext Transfer Protocol -> The purpose of the HTTP protocol is to provide a standard way for web browsers and servers to talk to each other.
     # These policies are required if you want to be able to connect to internet using http and https protocols. These are the most common ones and the standard way for web browsers and servers to talk to each other.
     iptables -A INPUT -p tcp -m conntrack --ctstate ESTABLISHED,RELATED --sport 80 -j ACCEPT
-
+    
     iptables -A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
 
     # HTTPS: Hypertext Transfer Protocol Secure -> The purpose of the HTTP protocol is to provide a standard way for web browsers and servers to talk to each other with a extensive security that prevents man in the middle and etc.
     iptables -A INPUT -p tcp -m conntrack --ctstate ESTABLISHED,RELATED --sport 443 -j ACCEPT
-
+    
     iptables -A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
     # DNS: Domain Name System -> The purpose of DNS is to translate a domain name into the appropriate IP address.

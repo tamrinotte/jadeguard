@@ -3,6 +3,9 @@
 main () {
     # The function which runs the entire script.
 
+    # Initialize a boolean like string variable
+    strict_mode="true"
+
     # Calling the clean_up_existing_rules function.
     clean_up_existing_rules
 
@@ -12,8 +15,19 @@ main () {
     # Calling the allow_input_and_output_on_loop_back_interface function.
     allow_input_and_output_on_loopback_interface
 
-    # Calling the append_iptables_rules function.
-    # append_ip6tables_rules
+    # Check if the strict_mode is equal to true
+    if [ "$strict_mode" = "true" ]; then
+        
+        # Calling the allow_specific_services function.
+        # allow_specific_services
+
+    # Check if the boolean is false
+    else
+
+        # Calling the allow_established_connections function.
+        # allow_established_connections
+    
+    fi
 
     # Calling the append_rules_for_essential_security_measures function
     # append_rules_for_essential_security_measures
@@ -65,7 +79,16 @@ allow_input_and_output_on_loopback_interface() {
 
 }
 
-append_ip6tables_rules() {
+allow_established_connections() {
+    # A function which appens rules to allow established connections
+
+    ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    
+    ip6tables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+}
+
+allow_specific_services() {
     # A function which appens iptables rules.
 
     echo "Setting ip6tables rules."
@@ -74,9 +97,6 @@ append_ip6tables_rules() {
     # ESTABLISHED: meaning that the packet is associated with a connection which has seen packets in both directions,
     # RELATED: meaning that the packet is starting a new connection, but is associated with an existing connection, such as an FTP data transfer, or an ICMP error.
 
-    # SOURCE: Source is your machine. --sport is the port in your machine
-    # DESTINATION: Destionation is the other machine. --dport is the port in the other machine.
-    
     # Ping: Ping is a computer network administration software utility used to test the reachability of a host on an Internet Protocol (IP) network. It is available for virtually all operating systems that have networking capability, including most embedded network administration software.
     #ip6tables -A INPUT -p icmp -m conntrack --ctstate NEW --icmp-type 8 -j ACCEPT
     #ip6tables -A INPUT -p icmp -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
