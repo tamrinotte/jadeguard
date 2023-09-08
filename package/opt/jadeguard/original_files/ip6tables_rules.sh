@@ -1,10 +1,7 @@
 #!/bin/bash
 
-main () {
+main() {
     # The function which runs the entire script.
-
-    # Initialize a boolean like string variable
-    strict_mode="true"
 
     # Calling the clean_up_existing_rules function.
     clean_up_existing_rules
@@ -15,23 +12,8 @@ main () {
     # Calling the allow_input_and_output_on_loop_back_interface function.
     allow_input_and_output_on_loopback_interface
 
-    # Check if the strict_mode is equal to true
-    if [ "$strict_mode" = "true" ]; then
-
-        echo "Strict Mode is On"
-        
-        # Calling the allow_specific_services function.
-        # allow_specific_services
-
-    # Check if the boolean is false
-    else
-
-        echo "Strict Mode is Off"
- 
-        # Calling the allow_established_connections function.
-        # allow_established_connections
-    
-    fi
+    # Calling the allow_established_connections function.
+    # allow_established_connections
 
     # Calling the append_rules_for_essential_security_measures function
     # append_rules_for_essential_security_measures
@@ -80,15 +62,6 @@ allow_input_and_output_on_loopback_interface() {
     ip6tables -A INPUT -i lo -j ACCEPT
 
     ip6tables -A OUTPUT -o lo -j ACCEPT
-
-}
-
-allow_established_connections() {
-    # A function which appens rules to allow established connections
-
-    ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-    
-    ip6tables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 }
 
